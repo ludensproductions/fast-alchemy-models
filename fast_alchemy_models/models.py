@@ -1,14 +1,14 @@
 from datetime import datetime
 
-from dependencies.context.user import UserContext
-from dependencies.database import Base
 from sqlalchemy import BigInteger, Boolean, Column, DateTime, Integer, String
 from sqlalchemy.sql import func
 from sqlalchemy_mixins.serialize import SerializeMixin
 from sqlalchemy_mixins.smartquery import SmartQueryMixin
-from utils.enums import TypeHistorical
 
 from .active_record import CustomActiveRecordMixin
+from .enums import TypeHistorical
+from .user import UserContext
+
 
 class FastAlchemyModel(
     UserContext, CustomActiveRecordMixin, SmartQueryMixin, SerializeMixin
@@ -119,9 +119,3 @@ class FastAlchemyModel(
             return instance
         else:
             return cls().create(**kwargs)
-
-
-
-
-
-
