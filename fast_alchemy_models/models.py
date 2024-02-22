@@ -61,8 +61,8 @@ class FastAlchemyModel(
         Soft deletes the current instance by marking it as deleted with a timestamp.
         """
         kwargs = {"updated_at": datetime.utcnow(), "deleted": datetime.utcnow()}
-        if self.user:
-            kwargs["updated_by_id"] = self.user.id
+        if self.context_user_session:
+            kwargs["updated_by_id"] = self.context_user_session.id
         item = super().update(**kwargs)
         if self.__historical__:
             self.__historical__.create_historical_record(
@@ -73,8 +73,8 @@ class FastAlchemyModel(
     @classmethod
     def create(cls, **kwargs):
         """ """
-        if cls.user:
-            kwargs["updated_by_id"] = cls.user.id
+        if cls.context_user_session:
+            kwargs["updated_by_id"] = cls.context_user_session.id
         item = cls().fill(**kwargs).save()
         if cls.__historical__:
             cls.__historical__.create_historical_record(
@@ -85,8 +85,8 @@ class FastAlchemyModel(
     def update(self, **kwargs):
         """ """
         kwargs["updated_at"] = datetime.utcnow()
-        if self.user:
-            kwargs["updated_by_id"] = self.user.id
+        if self.context_user_session:
+            kwargs["updated_by_id"] = self.context_user_session.id
         item = super().update(**kwargs)
         if self.__historical__:
             self.__historical__.create_historical_record(
