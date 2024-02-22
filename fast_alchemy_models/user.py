@@ -12,7 +12,7 @@ class UserContext:
         cls._user = user
 
     @classproperty
-    def user(cls):
+    def context_user_session(cls):
         """
         :rtype: user | UserDB
         """

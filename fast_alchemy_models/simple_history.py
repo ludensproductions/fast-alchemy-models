@@ -22,8 +22,8 @@ class HistoricalBase(FastAlchemyModel):
     @classmethod
     def create_historical_record(cls, action, **kwargs):
         kwargs["history_type"] = action
-        if cls.user:
-            kwargs["history_user_id"] = cls.user.id
+        if cls.context_user_session:
+            kwargs["history_user_id"] = cls.context_user_session.id
         return cls().fill(**kwargs).save()
 
     @classmethod
