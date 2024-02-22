@@ -71,7 +71,7 @@ class CustomActiveRecordMixin(ActiveRecordMixin):
 
     def _flush_or_fail(self):
         try:
-            self.session.flush()
+            self.session.commit()
         except:
             self.session.rollback()
             raise
