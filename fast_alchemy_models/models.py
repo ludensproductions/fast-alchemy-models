@@ -74,7 +74,6 @@ class FastAlchemyModel(
     def create(cls, **kwargs):
         """ """
         if cls.context_user_session:
-            kwargs["created_by_id"] = cls.context_user_session.id
             kwargs["updated_by_id"] = cls.context_user_session.id
         item = cls().fill(**kwargs).save()
         if cls.__historical__:
