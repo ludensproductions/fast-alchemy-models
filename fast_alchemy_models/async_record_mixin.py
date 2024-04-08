@@ -114,7 +114,7 @@ class AsyncRecordMixin(InspectionMixin, SessionMixin):
             if stmt is None:
                 stmt = cls.smart_query(
                     filters=filters, sort_attrs=sort_attrs, schema=schema)
-            return (await session.execute(stmt)).scalars(execution_options=dict(compiled_cache=None)).unique()
+            return (await session.execute(stmt)).scalars().unique()
 
     @classmethod
     async def where_async(cls, **filters):
