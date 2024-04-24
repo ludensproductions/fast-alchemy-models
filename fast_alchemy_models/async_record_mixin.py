@@ -63,6 +63,23 @@ class AsyncRecordMixin(InspectionMixin, SessionMixin):
         :see: :meth:`create`
         """
         return await cls().fill(**kwargs).save_async()
+    
+    @classmethod
+    async def bulk_create_async(cls, data, batch_size=1000):
+        """
+        Async version of :meth:`bulk_create` method.
+
+        :see: :meth:`bulk_create`
+        """
+        async with cls.session() as session:
+            try:
+                for i in range(0, len(data), batch_size):
+                    objs = [cls().fill(**item) for item in data[i : i + batch_size]]
+                    session.add_all(objs)
+                    await session.commit()
+            except:
+                await session.rollback()
+                raise
 
     async def update_async(self, **kwargs):
         """
