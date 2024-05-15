@@ -74,7 +74,9 @@ class AsyncRecordMixin(InspectionMixin, SessionMixin):
         async with cls.session() as session:
             try:
                 for i in range(0, len(objs), batch_size):
-                    session.add_all(objs[i : i + batch_size])
+                    objs_to_add = objs[i : i + batch_size]
+                    objs_to_add = [cls().fill(**obj) for obj in objs_to_add]
+                    session.add_all(objs_to_add)
                     await session.commit()
             except:
                 await session.rollback()
